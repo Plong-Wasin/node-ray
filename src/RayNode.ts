@@ -23,12 +23,16 @@ export class Ray extends BaseRay {
     public static create(client: Client | null = null, uuid: string | null = null): Ray {
         const settings =
             Ray.settingsInstance ??
-            new Settings({
-                host: 'localhost',
-                port: 23517,
-                enable: true,
-                always_send_raw_values: false,
-            });
+            new Settings(
+                Ray.defaultSettings.not_defined === true
+                    ? {
+                        host: 'localhost',
+                        port: 23517,
+                        enable: true,
+                        always_send_raw_values: false,
+                    }
+                    : Ray.defaultSettings,
+            );
 
         return new this(settings, client, uuid);
     }
